@@ -1,0 +1,52 @@
+<style>
+.private-msg-box {
+    max-width: 500px;
+    margin-left: 0;
+    font-family: Arial, sans-serif;
+}
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+}
+.send-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: black;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.send-btn:hover { opacity: 0.8; }
+</style>
+
+<div class="private-msg-box">
+    <h3>Написать сообщение</h3>
+
+    <textarea id="privateText" class="input-field" placeholder="Введите ваше сообщение..."></textarea>
+    <button class="send-btn" onclick="sendPrivate()">Отправить</button>
+    <p id="statusMsg"></p>
+</div>
+
+<script>
+function sendPrivate() {
+    let text = document.getElementById("privateText").value.trim();
+    if (text === "") return;
+
+    let msgs = JSON.parse(localStorage.getItem("privateMessages") || "[]");
+
+    msgs.push({
+        id: Date.now(),
+        msg: text,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("privateMessages", JSON.stringify(msgs));
+
+    document.getElementById("privateText").value = "";
+    document.getElementById("statusMsg").textContent = "Сообщение отправлено!";
+}
+</script>
